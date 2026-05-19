@@ -1,0 +1,467 @@
+/* ==========================================================================
+   CONFIGURACIÓN GENERAL Y VARIABLES DEL MODO OSCURO
+   ========================================================================== */
+:root {
+    /* Variables dinámicas para el botón y aviso */
+    --text-color: #333;
+    --border-color: rgba(0, 0, 0, 0.1);
+    --btn-bg-toggle: rgba(255, 255, 255, 0.5);
+    --modal-bg: rgba(255, 255, 255, 0.95);
+    --modal-shadow: rgba(255, 133, 185, 0.2);
+
+    /* Variables Trabajo 1 (Claro) */
+    --t1-bg: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), #f9f9f9;
+    --t1-text: #333;
+    --t1-accent: #9d8b86;
+    --t1-border: #333;
+
+    /* Variables Trabajo 2 (Claro) */
+    --t2-bg: linear-gradient(180deg, #fff0f5 0%, #ffe4ef 100%);
+    --t2-pink-dark: #ff85b9;
+    --t2-purple: #b39ddb;
+    --t2-white-box: #ffffff;
+}
+
+[data-theme="dark"] {
+    /* Variables dinámicas para el botón y aviso */
+    --text-color: #f5f5f7;
+    --border-color: rgba(255, 255, 255, 0.2);
+    --btn-bg-toggle: rgba(0, 0, 0, 0.5);
+    --modal-bg: rgba(36, 28, 36, 0.95);
+    --modal-shadow: rgba(0, 0, 0, 0.4);
+
+    /* Variables Trabajo 1 (Oscuro adaptado) */
+    --t1-bg: linear-gradient(rgba(5, 5, 5, 0.7), rgba(5, 5, 5, 0.7)), #050505;
+    --t1-text: #f5f5f7;
+    --t1-accent: #0071e3;
+    --t1-border: #f5f5f7;
+
+    /* Variables Trabajo 2 (Oscuro adaptado) */
+    --t2-bg: linear-gradient(180deg, #1a0f1a 0%, #120a12 100%);
+    --t2-pink-dark: #ff9ebb;
+    --t2-purple: #b39ddb;
+    --t2-white-box: #241c24;
+}
+
+/* Modificado: Por defecto permitimos el cursor normal si el aviso está presente */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Forzamos el cursor invisible del sistema mediante una clase en el body que añadirá el JS */
+body.quitar-cursor-sistema * {
+    cursor: none !important;
+}
+
+body {
+    overflow: hidden;
+    height: 100vh;
+    background-color: #000;
+    transition: color 0.5s ease;
+}
+
+/* --- Estilos del Aviso Emergente --- */
+.aviso-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100020; /* Prioridad máxima sobre punteros y botones */
+    opacity: 1;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    cursor: default !important; /* Forzar el puntero por defecto del PC en el aviso */
+}
+
+/* Asegurar que todos los elementos dentro del aviso utilicen el ratón por defecto del PC */
+.aviso-overlay *, .aviso-cerrar-btn {
+    cursor: default !important;
+}
+
+.aviso-caja {
+    background: var(--modal-bg);
+    color: var(--text-color);
+    font-family: 'Quicksand', sans-serif;
+    padding: 40px 30px;
+    border-radius: 24px;
+    max-width: 480px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 20px 40px var(--modal-shadow);
+    border: 2px solid var(--border-color);
+    transform: translateY(0);
+    transition: background 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+}
+
+.aviso-cerrar-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--text-color);
+    line-height: 1;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.aviso-cerrar-btn:hover {
+    color: var(--t2-pink-dark);
+    transform: scale(1.1);
+}
+
+.aviso-icono {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    animation: pulseIcon 2s infinite alternate;
+}
+
+.aviso-caja h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.aviso-caja p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+@keyframes pulseIcon {
+    from { transform: scale(1); }
+    to { transform: scale(1.15); }
+}
+
+/* Ocultación del aviso controlada por JS */
+.aviso-overlay.ocultar {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.pantalla-dividida {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background: var(--t2-bg);
+    transition: background 0.5s ease;
+}
+
+.seccion-lado {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.contenido-lado {
+    text-align: center;
+    z-index: 10;
+    padding: 30px;
+    transition: transform 0.5s ease;
+}
+
+/* ==========================================================================
+   ESTILOS DE LOS PUNTEROS INTERCAMBIABLES
+   ========================================================================== */
+
+/* --- Puntero Trabajo 1 (Doble círculo) --- */
+.cursor-dot-t1, .cursor-outline-t1 {
+    position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+    border-radius: 50%; z-index: 10010; pointer-events: none;
+    display: none;
+    transition: background-color 0.5s ease, border-color 0.5s ease;
+}
+.cursor-dot-t1 { width: 8px; height: 8px; background-color: var(--t1-accent); }
+.cursor-outline-t1 { width: 40px; height: 40px; border: 2px solid var(--t1-accent); }
+
+/* Efecto hover sobre el botón del Trabajo 1 */
+.cursor-hover-dot-t1 { transform: translate(-50%, -50%) scale(1.5); background-color: var(--t1-text); }
+.cursor-hover-outline-t1 { width: 60px; height: 60px; border-color: var(--t1-text); background-color: rgba(157, 139, 134, 0.1); }
+
+/* --- Puntero Trabajo 2 (Corazón flecha) --- */
+.cute-heart-cursor {
+    position: fixed; z-index: 10010; pointer-events: none; user-select: none;
+    font-size: 1.6rem; line-height: 1;
+    transform: translate(-20%, -20%) rotate(135deg);
+    left: -100px; top: -100px;
+    display: none;
+}
+
+/* Partículas del Trabajo 2 */
+.heart-particle {
+    position: fixed; z-index: 9999; pointer-events: none; user-select: none;
+    font-size: 0.9rem; line-height: 1;
+    animation: dropAndFade 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+@keyframes dropAndFade {
+    0% { opacity: 1; margin-top: 0px; }
+    100% { opacity: 0; margin-top: 35px; transform: translate(-50%, -50%) scale(0.3); }
+}
+
+/* Clases de activación que usarán las condiciones estrictas del JS */
+body.ver-puntero-t1.quitar-cursor-sistema .cursor-dot-t1, 
+body.ver-puntero-t1.quitar-cursor-sistema .cursor-outline-t1 { display: block; }
+
+body.ver-puntero-t2.quitar-cursor-sistema .cute-heart-cursor { display: block; }
+
+/* ==========================================================================
+   ESTILO MITAD IZQUIERDA: TRABAJO 1 (Futurista con desvanecimiento y expansión)
+   ========================================================================== */
+.lado-izquierdo {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--t1-bg);
+    
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50vw;
+    height: 100%;
+    z-index: 5;
+
+    transition: width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.5s ease;
+
+    mask-image: linear-gradient(to right, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+    -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+}
+
+.lado-izquierdo:hover {
+    width: 60vw;
+}
+
+.lado-izquierdo:hover .contenido-lado {
+    transform: scale(1.05);
+}
+
+.eslogan-t1 {
+    display: block;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, var(--t1-text), var(--t1-accent), var(--t1-text));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shineEffect 6s linear infinite;
+}
+
+.titulo-t1 {
+    font-size: 1rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--t1-text);
+    margin-bottom: 40px;
+    transition: color 0.5s ease;
+}
+
+.btn-t1 {
+    padding: 15px 40px;
+    border: 1px solid var(--t1-border);
+    background: none;
+    color: var(--t1-text);
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 50px;
+    text-decoration: none;
+    display: inline-block;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+    transition: all 0.4s ease, border-color 0.5s ease, color 0.5s ease;
+}
+
+.btn-t1:hover {
+    background: var(--t1-text);
+    color: #f9f9f9;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+[data-theme="dark"] .btn-t1:hover {
+    color: #050505;
+}
+
+@keyframes shineEffect { 
+    to { background-position: 200% center; } 
+}
+
+/* ==========================================================================
+   ESTILO MITAD DERECHA: TRABAJO 2 (Kawaii completa con reducción reactiva)
+   ========================================================================== */
+.lado-derecho {
+    font-family: 'Quicksand', sans-serif;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.lado-derecho .contenido-lado {
+    width: 50vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.5s ease;
+}
+
+.lado-derecho:hover .contenido-lado {
+    width: 60vw;
+    transform: scale(1.05);
+}
+
+.pantalla-dividida:has(.lado-izquierdo:hover) .lado-derecho .contenido-lado {
+    width: 40vw;
+}
+
+.eslogan-t2 {
+    display: block;
+    font-size: clamp(2rem, 5vw, 4rem);
+    color: var(--t2-pink-dark);
+    text-shadow: 3px 3px 0 var(--t2-white-box);
+    text-transform: uppercase;
+    animation: floatEffect 3s infinite alternate;
+    transition: color 0.5s ease, text-shadow 0.5s ease;
+}
+
+.titulo-t2 {
+    font-size: 1.1rem;
+    color: var(--t2-purple);
+    background: var(--t2-white-box);
+    padding: 6px 20px;
+    border-radius: 50px;
+    display: inline-block;
+    margin-bottom: 40px;
+    transition: background 0.5s ease;
+}
+
+.btn-t2 {
+    background: var(--t2-pink-dark);
+    color: white;
+    padding: 15px 45px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    transition: all 0.3s ease, background 0.5s ease;
+    border: none;
+}
+
+.btn-t2:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(255, 133, 185, 0.4);
+}
+
+@keyframes floatEffect {
+    from { transform: translateY(0); }
+    to { transform: translateY(-12px); }
+}
+
+/* ELEMENTOS EN MOVIMIENTO REUTILIZADOS (TRABAJO 2) */
+.background-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.cloud {
+    position: absolute;
+    background: var(--t2-white-box);
+    width: 120px;
+    height: 40px;
+    border-radius: 50px;
+    opacity: 0.7;
+    animation: moveClouds 25s linear infinite;
+    transition: background 0.5s ease;
+}
+
+.cloud::after, .cloud::before {
+    content: '';
+    position: absolute;
+    background: var(--t2-white-box);
+    border-radius: 50%;
+    transition: background 0.5s ease;
+}
+
+.cloud::after { width: 55px; height: 55px; top: -25px; left: 15px; }
+.cloud::before { width: 40px; height: 40px; top: -15px; left: 55px; }
+
+@keyframes moveClouds {
+    from { left: -150px; }
+    to { left: 100%; }
+}
+
+.sparkle {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 2s infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0; transform: scale(0); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* RESPONSIVE ORIGINAL MÓVIL */
+@media (max-width: 768px) {
+    * { cursor: auto !important; }
+    .cursor-dot-t1, .cursor-outline-t1, .cute-heart-cursor, .heart-particle { display: none !important; }
+
+    .pantalla-dividida {
+        flex-direction: column;
+    }
+    .lado-izquierdo {
+        width: 100vw;
+        height: 50vh;
+        mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+        -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+    }
+    .lado-izquierdo:hover {
+        height: 55vh;
+        width: 100vw;
+    }
+    .lado-derecho {
+        width: 100vw;
+        height: 100vh;
+        justify-content: center;
+        align-items: flex-end;
+    }
+    .lado-derecho .contenido-lado {
+        width: 100vw;
+        height: 50vh;
+        transition: height 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .lado-derecho:hover .contenido-lado {
+        height: 55vh;
+        width: 100vw;
+    }
+    .pantalla-dividida:has(.lado-izquierdo:hover) .lado-derecho .contenido-lado {
+        height: 45vh;
+        width: 100vw;
+    }
+    .titulo-t1, .titulo-t2 {
+        margin-bottom: 20px;
+    }
+}
+
+

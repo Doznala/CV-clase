@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido | Selecciona un Porfolio</title>
+    <!-- Fuentes para ambos estilos -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <!-- Ventana de Aviso Informativo Integrada -->
+    <div id="aviso-modal" class="aviso-overlay">
+        <div class="aviso-caja">
+            <button id="cerrar-aviso" class="aviso-cerrar-btn" aria-label="Cerrar aviso">&times;</button>
+            <div class="aviso-icono">✨</div>
+            <h3>¡Bienvenido!</h3>
+            <p>Cada uno de los botones te redirigirá a una versión del porfolio completamente independiente, con sus propios estilos visuales, efectos, punteros y animaciones personalizadas.</p>
+        </div>
+    </div>
+
+    <!-- Botón de Modo Oscuro Global integrado -->
+    <button id="theme-btn" style="position: fixed; top: 20px; right: 20px; background: none; border: 2px solid var(--border-color, rgba(0,0,0,0.1)); color: var(--text-color, #333); padding: 8px 15px; border-radius: 30px; z-index: 10005; font-family: inherit; font-weight: bold; transition: 0.3s; background-color: var(--btn-bg-toggle, rgba(255,255,255,0.5)); backdrop-filter: blur(5px);">🌑</button>
+
+    <!-- Elementos de los punteros integrados -->
+    <div class="cursor-dot-t1"></div>
+    <div class="cursor-outline-t1"></div>
+    <div class="cute-heart-cursor">❤️</div>
+
+    <div class="pantalla-dividida">
+        
+        <!-- MITAD IZQUIERDA: TRABAJO 1 (Futurista / Minimalista) -->
+        <div class="seccion-lado lado-izquierdo">
+            <div class="contenido-lado">
+                <span class="eslogan-t1">JANE DOE</span>
+                <h2 class="titulo-t1">Edición Futurista</h2>
+                <a href="trabajo-1/index.html" class="btn-entrada btn-t1">Explorar Diseño 1</a>
+            </div>
+        </div>
+
+        <!-- MITAD DERECHA: TRABAJO 2 (Ultra Kawaii / Mágico) -->
+        <div class="seccion-lado lado-derecho">
+            <!-- Elementos de fondo del Trabajo 2 integrados en este lado -->
+            <div class="background-elements">
+                <div class="cloud" style="top: 15%; animation-duration: 15s;"></div>
+                <div class="cloud" style="top: 50%; animation-duration: 12s; animation-delay: -3s;"></div>
+                <div class="cloud" style="top: 80%; animation-duration: 18s; animation-delay: -6s;"></div>
+                <div class="sparkle" style="top: 25%; left: 60%; width: 10px; height: 10px;"></div>
+                <div class="sparkle" style="top: 70%; left: 85%; width: 12px; height: 12px; animation-delay: 0.5s;"></div>
+            </div>
+            
+            <div class="contenido-lado">
+                <h1 class="eslogan-t2">Jane Doe</h1>
+                <h2 class="titulo-t2">Ultra Kawaii Edition</h2>
+                <a href="trabajo-2/index.html" class="btn-entrada btn-t2">Entrar con Magia ✨</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

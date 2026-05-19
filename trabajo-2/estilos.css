@@ -1,0 +1,595 @@
+/* ==========================================================================
+   1. VARIABLES Y CONFIGURACIÓN BASE
+   ========================================================================== */
+
+:root {
+    --pink-light: #ffebf2;
+    --pink-dark: #ff85b9;
+    --mint: #a8e6cf;
+    --white: #ffffff;
+    --text-main: #7d5a6a;
+    --body-bg: linear-gradient(180deg, #fff0f5 0%, #ffe4ef 100%);
+    
+    /* Variables estrictas de color para que el personaje resalte más */
+    --character-bg: #ffffff;
+    --character-blush: #ffc2d4;
+    --character-eyes: var(--pink-dark);
+}
+
+/* Integración Modo Oscuro Adaptado */
+[data-theme="dark"] {
+    --pink-light: #3d2b3d;
+    --pink-dark: #ff9ebb;
+    --mint: #68b0ab;
+    --white: #241c24;
+    --text-main: #f3e5f5;
+    --body-bg: linear-gradient(180deg, #1a0f1a 0%, #120a12 100%);
+    
+    /* Colores del personaje para resaltar en el fondo noche sin alterar su forma */
+    --character-bg: #fff0f5; 
+    --character-blush: #ff6597; 
+    --character-eyes: #4a1525; 
+}
+
+/* Oculta el puntero original del sistema */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    cursor: none; 
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    background: var(--body-bg);
+    background-attachment: fixed;
+    color: var(--text-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+    transition: background 0.5s ease, color 0.3s ease;
+}
+
+/* ==========================================================================
+   ESTILOS EXCLUSIVOS DEL PUNTERO DE CORAZÓN Y ESTELA DE PARTÍCULAS
+   ========================================================================== */
+
+/* El corazón rotado 135 grados para que el pico inferior sea la punta del puntero */
+.cute-heart-cursor {
+    position: fixed;
+    z-index: 10000;
+    pointer-events: none;
+    user-select: none;
+    font-size: 1.6rem;
+    line-height: 1;
+    transform: translate(-20%, -20%) rotate(135deg); 
+    left: -100px;
+    top: -100px;
+    transition: transform 0.1s ease;
+}
+
+/* Formato de las partículas que se desprenden al caminar */
+.heart-particle {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    user-select: none;
+    font-size: 0.9rem;
+    line-height: 1;
+    animation: dropAndFade 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Animación para que caigan verticalmente con gravedad y se desvanezcan */
+@keyframes dropAndFade {
+    0% {
+        opacity: 1;
+        margin-top: 0px;
+    }
+    100% {
+        opacity: 0;
+        margin-top: 35px; /* Simula caída por gravedad */
+        transform: translate(-50%, -50%) scale(0.3);
+    }
+}
+
+/* ==========================================================================
+   2. ELEMENTOS DE FONDO (Nubes Originales Actualizadas)
+   ========================================================================== */
+
+.background-elements {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.cloud {
+    position: absolute;
+    background: var(--white);
+    width: 150px;
+    height: 50px;
+    border-radius: 50px;
+    opacity: 0.8;
+    animation: moveClouds 20s linear infinite;
+    transition: background 0.5s ease;
+}
+
+.cloud::after, 
+.cloud::before {
+    content: '';
+    position: absolute;
+    background: var(--white);
+    border-radius: 50%;
+    transition: background 0.5s ease;
+}
+
+.cloud::after { 
+    width: 70px; 
+    height: 70px; 
+    top: -35px; 
+    left: 20px; 
+}
+
+.cloud::before { 
+    width: 50px; 
+    height: 50px; 
+    top: -20px; 
+    left: 70px; 
+}
+
+@keyframes moveClouds {
+    from { left: -200px; }
+    to { left: 100%; }
+}
+
+.sparkle {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 2s infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0; transform: scale(0); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* ==========================================================================
+   3. CABECERA Y NAVEGACIÓN
+   ========================================================================== */
+
+.cabecera-web {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(5px);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    box-shadow: 0 5px 20px rgba(255, 133, 185, 0.15);
+}
+
+[data-theme="dark"] .cabecera-web {
+    background: rgba(36, 28, 36, 0.9);
+}
+
+.cabecera-menu {
+    display: flex;
+    list-style: none;
+}
+
+.cabecera-menu li {
+    padding: 5px 10px;
+}
+
+.cabecera-menu a {
+    padding: 10px 20px;
+    color: var(--pink-dark);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    transition: 0.3s ease;
+    display: block; 
+}
+
+.cabecera-menu a:hover {
+    color: #b39ddb;
+    transform: scale(1.1);
+}
+
+/* --- Menú Hamburguesa Móvil --- */
+
+.menu-toggle {
+    cursor: pointer;
+    padding: 15px;
+    display: none;
+}
+
+.barras, .barras::before, .barras::after {
+    width: 25px;
+    height: 3px;
+    background: var(--pink-dark);
+    display: block;
+    transition: 0.3s;
+    position: relative;
+}
+
+.barras::before, .barras::after {
+    content: "";
+    position: absolute;
+    left: 0;
+}
+
+.barras::before { top: -8px; }
+.barras::after { top: 8px; }
+
+/* ==========================================================================
+   4. SECCIÓN INICIO Y PERSONAJE (Corregido para evitar desplazamientos al clicar)
+   ========================================================================== */
+
+#sec-inicio {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    /* Único cambio operativo: alineación centralizada para equilibrar el anclaje del botón Inicio */
+    justify-content: center; 
+    align-items: center;
+    text-align: center;
+    padding-top: 0; /* Eliminado el padding-top que causaba el salto visual */
+    margin-top: -30px; /* Desplazamiento fino hacia arriba idéntico a la distribución previa */
+}
+
+.character-box {
+    width: 240px;
+    height: 150px;
+    background: var(--character-bg); 
+    border-radius: 80px 80px 20px 20px;
+    box-shadow: 0 15px 0 rgba(255, 133, 185, 0.2);
+    animation: sleepBreathe 4s ease-in-out infinite;
+    position: relative;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.5s ease;
+}
+
+.ear {
+    position: absolute;
+    top: -15px;
+    width: 50px;
+    height: 50px;
+    background: var(--character-bg); 
+    border-radius: 10px;
+    transform: rotate(45deg);
+    transition: background 0.5s ease;
+}
+
+.ear.left { left: 35px; }
+.ear.right { right: 35px; }
+
+.eyes-closed { display: flex; gap: 50px; position: relative; z-index: 2; }
+
+.eye-v {
+    width: 35px;
+    height: 15px;
+    border-bottom: 5px solid var(--character-eyes); 
+    border-radius: 0 0 50% 50%;
+    transition: border-color 0.5s ease;
+}
+
+/* --- Sonrojado (Blush) --- */
+.blush {
+    position: absolute;
+    width: 40px;
+    height: 20px;
+    background: var(--character-blush); 
+    border-radius: 50%;
+    top: 85px;
+    filter: blur(5px);
+    z-index: 1;
+    transition: background 0.5s ease;
+}
+
+@keyframes sleepBreathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05) translateY(-10px); }
+}
+
+.eslogan1 {
+    display: block;
+    font-size: clamp(3rem, 12vw, 5rem); 
+    color: var(--pink-dark);
+    text-shadow: 4px 4px 0 var(--white);
+    text-transform: uppercase;
+    animation: titleFloat 3s infinite alternate;
+}
+
+.eslogan2 {
+    display: block;
+    font-size: 1.1rem;
+    color: #b39ddb;
+    background: var(--white);
+    padding: 8px 25px;
+    border-radius: 50px;
+    margin-top: 10px;
+    transition: background 0.5s ease;
+}
+
+@keyframes titleFloat {
+    from { transform: translateY(0); }
+    to { transform: translateY(-15px); }
+}
+
+/* ==========================================================================
+   5. SECCIONES Y PORFOLIO
+   ========================================================================== */
+
+section {
+    padding: 100px 10%;
+    text-align: center;
+}
+
+.divider, .divider2 {
+    width: 60px;
+    height: 5px;
+    background: var(--pink-dark);
+    border: none;
+    margin: 20px auto 40px;
+    border-radius: 10px;
+}
+
+.sobre-mi-item-img {
+    width: 15%;
+    min-width: 200px;
+    border-radius: 30px;
+    border: 8px solid var(--white);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+    transition: border-color 0.5s ease;
+}
+
+.listado-imagenes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+    gap: 25px;
+    list-style: none;
+    padding: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.listado-imagenes li img {
+    width: 100%;
+    border-radius: 25px;
+    border: 6px solid var(--white);
+    transition: 0.4s, border-color 0.5s ease;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.listado-imagenes li img:hover {
+    transform: translateY(-10px) rotate(2deg);
+}
+
+.btn {
+    background: var(--pink-dark);
+    color: white;
+    padding: 15px 35px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    transition: 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.sobre-mi-item .btn {
+    margin-top: 30px;
+}
+
+.btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(255, 133, 185, 0.4);
+}
+
+/* ==========================================================================
+   6. CONTACTO, RRSS Y PANEL
+   ========================================================================== */
+
+.contacto-form {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--white);
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(255, 133, 185, 0.1);
+    transition: background 0.5s ease;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 15px;
+    border-radius: 15px;
+    border: 2px solid var(--pink-light);
+    background: var(--white);
+    color: var(--text-main);
+    margin-bottom: 20px;
+    font-family: 'Quicksand', sans-serif;
+    outline: none;
+    resize: none;
+    transition: background 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+}
+
+.rrss-listado {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.icon-social {
+    fill: var(--pink-dark);
+    transition: 0.3s;
+}
+
+.rrss-link:hover .icon-social {
+    fill: #b39ddb;
+    transform: translateY(-5px);
+}
+
+#control-panel {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    background: var(--white);
+    padding: 20px;
+    border-radius: 20px;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1001;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border: 2px solid var(--pink-light);
+    transition: background 0.5s ease, border-color 0.5s ease;
+}
+
+#toggle-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--pink-dark);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1002;
+    font-size: 1.2rem;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+/* ==========================================================================
+   7. PIE DE PÁGINA (Footer)
+   ========================================================================== */
+
+.pie-web {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(5px);
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 2px solid var(--pink-light);
+    margin-top: 50px;
+}
+
+[data-theme="dark"] .pie-web {
+    background: rgba(36, 28, 36, 0.6);
+}
+
+.copyright {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--pink-dark);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+}
+
+.copyright::before,
+.copyright::after {
+    content: " ✨ ";
+}
+
+/* RESPONSIVE ORIGINAL Y DISEÑO DE MÓVIL */
+@media (max-width: 768px) {
+    /* Devuelve el cursor normal del sistema en pantallas táctiles */
+    * { cursor: auto !important; }
+    .cute-heart-cursor, .heart-particle { display: none !important; }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .menu-toggle { 
+        display: block; 
+    }
+
+    .cabecera-nav {
+        display: none; 
+        position: absolute;
+        top: 100%; 
+        left: 0;
+        width: 100%;
+        background: white;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    [data-theme="dark"] .cabecera-nav {
+        background: var(--white);
+    }
+
+    .cabecera-menu {
+        flex-direction: column;
+        padding: 10px 0;
+    }
+
+    .cabecera-menu li {
+        padding: 0; 
+        width: 100%;
+        text-align: center;
+    }
+
+    .cabecera-menu a {
+        padding: 15px 0; 
+        border-bottom: 1px solid var(--pink-light);
+        width: 100%;
+    }
+
+    .menu-input:checked ~ .cabecera-nav {
+        display: block;
+    }
+
+    .menu-input:checked ~ .menu-toggle .barras {
+        background: transparent;
+    }
+
+    .menu-input:checked ~ .menu-toggle .barras::before {
+        top: 0;
+        transform: rotate(45deg);
+    }
+
+    .menu-input:checked ~ .menu-toggle .barras::after {
+        top: 0;
+        transform: rotate(-45deg);
+    }
+}
+

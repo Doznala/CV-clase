@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web CV - Ultra Kawaii Edition</title>
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <!-- Fuente Quicksand -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+    <!-- Nuevos elementos del puntero de corazón y estela integrados -->
+    <div id="puntero-corazon">💖</div>
+    <canvas id="lienzo-estela"></canvas>
+
+    <!-- Fondo Animado (Nubes y Brillos) -->
+    <div class="background-elements">
+        <div class="cloud" style="top: 10%; animation-duration: 25s;"></div>
+        <div class="cloud" style="top: 40%; animation-duration: 18s; animation-delay: -5s;"></div>
+        <div class="cloud" style="top: 70%; animation-duration: 30s; animation-delay: -10s;"></div>
+        <div class="sparkle" style="top: 20%; left: 20%; width: 10px; height: 10px;"></div>
+        <div class="sparkle" style="top: 80%; left: 10%; width: 12px; height: 12px; animation-delay: 0.5s;"></div>
+    </div>
+
+    <!-- Panel de Configuración -->
+    <button id="toggle-btn">⚙️</button>
+    <div id="control-panel">
+        <input type="text" id="t-input" placeholder="Nombre...">
+        <input type="text" id="s-input" placeholder="Eslogan...">
+    </div>
+
+    <header class="cabecera-web">
+        <input type="checkbox" id="menu-check" class="menu-input" hidden>
+        <label for="menu-check" class="menu-toggle"><span class="barras"></span></label>
+
+        <nav class="cabecera-nav">
+            <ul class="cabecera-menu">
+                <li><a href="#sec-inicio">Inicio</a></li>
+                <li><a href="#sec-sobre-mi">Sobre mi</a></li>
+                <li><a href="#sec-porfolio">Porfolio</a></li>
+                <li><a href="#sec-contactar">Contacto</a></li>
+            </ul>
+        </nav>
+        <!-- Botón de Modo Oscuro integrado -->
+        <button id="theme-btn" style="background: none; border: 2px solid var(--pink-light); color: var(--pink-dark); padding: 8px 15px; border-radius: 30px; cursor: pointer; font-family: inherit; font-weight: bold; margin-left: 15px; transition: 0.3s; z-index: 1001;">🌑</button>
+    </header>
+
+    <main class="main-web">
+        <section id="sec-inicio">
+            <!-- Personaje Animado -->
+            <div class="character-box">
+                <div class="ear left"></div>
+                <div class="ear right"></div>
+
+                <div class="face">
+                    <div class="eyes-closed">
+                        <div class="eye-v"></div>
+                        <div class="eye-v"></div>
+                    </div>
+                    <!-- Añade estas dos líneas -->
+                    <div class="blush" style="left: 30px;"></div>
+                    <div class="blush" style="right: 30px;"></div>
+                    
+                    <div style="font-size: 2rem; margin-top: 15px;">💤</div>
+                </div>
+
+            </div>
+            <h1 class="eslogan1" id="main-title">Jane Doe</h1> 
+            <span class="eslogan2" id="sub-title">Diseño, Fotografía & Magia</span>
+        </section>
+
+        <section id="sec-sobre-mi" class="sobre-mi-item">
+            <h2>Sobre mi</h2>
+            <hr class="divider">
+            <img src="img/about.jpg" alt="" class="sobre-mi-item-img">
+            <div class="sobre-mi-item-texto">
+                <p>¡Hola! Soy una creativa que busca llenar el mundo de colores pastel y designs increíbles. Me especializo en dar un toque mágico a cada proyecto.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>	
+            <a href="../webdesign.rar" id="btnDescargar" class="btn" download="Mi_CV.rar">Descargar CV ✨</a>
+        </section>
+
+        <section id="sec-porfolio">
+            <h2>Porfolio</h2>
+            <hr class="divider2">
+            <!-- Mantenemos tus 12 elementos UL/LI -->
+            <ul class="listado-imagenes">
+                <li><img src="img/portfolio/01-small.jpg" alt="" class="img-p"></li>
+                <li><img src="img/portfolio/02-small.jpg" alt="" class="img-p"></li>
+                <li><img src="img/portfolio/03-small.jpg" alt="" class="img-p"></li>
+                <li><img src="img/portfolio/04-small.jpg" alt="" class="img-p"></li>
+                <li><img src="img/portfolio/05-small.jpg" alt="" class="img-p"></li>
+                <li><img src="img/portfolio/06-small.jpg" alt="" class="img-p"></li>
+                <li><img src="img/portfolio/07-small.jpg" alt="" class="img-p"></li>
+                <li><img src="img/portfolio/08-small.jpg" alt="" class="img-p"></li>
+                <li><img src="img/portfolio/09-small.jpg" alt="" class="img-p"></li>
+                <li><img src="img/portfolio/10-small.jpg" alt="" class="img-p"></li>
+                <li><img src="img/portfolio/11-small.jpg" alt="" class="img-p"></li>
+                <li><img src="img/portfolio/12-small.jpg" alt="" class="img-p"></li>
+            </ul>
+        </section>
+
+        <section id="sec-contactar">
+            <div class="contacto-contenido">
+                <h2 class="titulo-contacto">CONTACTA CONMIGO</h2>
+                <div class="divider"></div>
+                <form class="contacto-form" name="fcontacto">
+                    <!-- Único cambio: Nombre e Email agrupados en form-row -->
+                    <div class="form-row"> 
+                        <input type="text" placeholder="Tu nombre">
+                        <input type="email" placeholder="Tu email">
+                    </div> 
+                    <textarea placeholder="Tu mensaje mágico..." rows="5"></textarea>
+                    <button type="submit" class="btn">ENVIAR MENSAJE ✨</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Sección RRSS Original -->
+        <div class="rrss-item">
+            <ul class="rrss-listado">
+                <li>
+                    <a href="#" aria-label="Facebook" class="rrss-link">
+                        <svg viewBox="0 0 320 512" class="icon-social" width="18" height="18"><path d="M80 299.3V512H196V299.3h86.5l18-97.8H196V166.9c0-51.7 20.3-71.5 72.7-71.5c16.3 0 29.4 .4 37 1.2V7.9C291.4 4 256.4 0 236.2 0C129.3 0 80 50.5 80 159.4v42.1H14v97.8H80z"/></svg>
+                        <span class="sr-only">Facebook</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" aria-label="Twitter" class="rrss-link">
+                        <svg viewBox="0 0 512 512" class="icon-social" width="18" height="18"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
+                        <span class="sr-only">Twitter</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" aria-label="Behance" class="rrss-link">
+                        <svg viewBox="0 0 576 512" class="icon-social" width="18" height="18"><path d="M232 237.2c31.8-15.2 48.4-38.2 48.4-74 0-70.6-52.6-87.8-113.3-87.8H0v354.4h171.8c64.4 0 124.9-30.9 124.9-102.9 0-44.5-21.1-77.4-64.7-89.7zM77.9 135.9H151c28.1 0 43.4 10.8 43.4 33.6 0 22.2-15.3 35.7-43.4 35.7H77.9v-69.3zm85.1 230.1H77.9V266.2h85.1c32.4 0 49.3 15.3 49.3 39.9 0 25.5-16.9 59.9-49.3 59.9zM576 174.4H334v28.6h242v-28.6zm-101.4 48.7c-63.5 0-112.5 39.7-112.5 111.4 0 71.9 50.1 113 118.8 113 54.4 0 91.1-23.7 108.3-64.7h-62.9c-11.8 16.5-26.6 23.3-45.5 23.3-25.5 0-45.8-14.7-49-41.7h161.2c1.7-13.8 2.2-26.6 2.2-38.3 0-66.9-44.7-103-100.6-103zm-51 86.8c3.4-23.7 20-41.2 46-41.2 24.2 0 40.5 17.5 42.4 41.2h-88.4z"/></svg>
+                        <span class="sr-only">Behance</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </main>
+
+	<footer class="pie-web">
+		<p class="copyright">Copyright &copy; Jane Doe</p>
+	</footer>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
