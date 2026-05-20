@@ -29,10 +29,10 @@ body {
     scroll-behavior: smooth;
 }
 
-/* --- 3. CURSOR PROFESIONAL --- */
+/* --- 3. CURSOR PROFESIONAL (Z-INDEX ELEVADO PARA MODAL) --- */
 .cursor-dot, .cursor-outline {
     position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
-    border-radius: 50%; z-index: 10000; pointer-events: none;
+    border-radius: 50%; z-index: 13000; pointer-events: none;
     transition: transform 0.2s ease, width 0.2s ease, height 0.2s ease;
 }
 .cursor-dot { width: 8px; height: 8px; background-color: var(--accent-color); }
@@ -177,4 +177,99 @@ input:focus, textarea:focus { border-color: var(--accent-color); outline: none; 
     .cabecera-menu a { font-size: 1.5rem; }
     .form-row { flex-direction: column; }
     .rrss-item { flex-direction: column; }
+}
+
+/* --- 10. VISOR DE IMÁGENES AMPLIADO (MÁXIMO TAMAÑO DISPONIBLE Y ADAPTADO) --- */
+.p-modal {
+    display: none;
+    position: fixed;
+    z-index: 12000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(5, 5, 5, 0.96);
+    backdrop-filter: blur(15px);
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.p-modal.is-active {
+    display: flex;
+    opacity: 1;
+}
+
+.p-modal-content {
+    width: 100%;
+    height: 100%;
+    max-width: 100vw;
+    max-height: 100vh;
+    object-fit: contain; /* Garantiza que la imagen ocupe todo el espacio sin recortarse ni deformarse */
+    padding: 20px;
+    box-sizing: border-box;
+    transform: scale(0.97);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.p-modal.is-active .p-modal-content {
+    transform: scale(1);
+}
+
+.p-modal-close {
+    position: absolute;
+    top: 25px;
+    right: 35px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 50px;
+    font-weight: 100;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s;
+    z-index: 12500;
+    line-height: 1;
+}
+
+.p-modal-close:hover {
+    color: var(--accent-color);
+    transform: scale(1.1);
+}
+
+.p-modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 60px;
+    font-weight: 100;
+    padding: 30px 20px;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s, background-color 0.3s;
+    z-index: 12500;
+    user-select: none;
+    line-height: 1;
+}
+
+.p-modal-nav:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.p-modal-prev { left: 10px; border-radius: 0 8px 8px 0; }
+.p-modal-prev:hover { transform: translateY(-50%) translateX(-2px); }
+.p-modal-next { right: 10px; border-radius: 8px 0 0 8px; }
+.p-modal-next:hover { transform: translateY(-50%) translateX(2px); }
+
+@media (max-width: 768px) {
+    .p-modal-content {
+        padding: 60px 10px; /* Margen superior e inferior para no chocar con la interfaz móvil */
+    }
+    .p-modal-close { top: 15px; right: 20px; font-size: 40px; }
+    .p-modal-nav { font-size: 45px; padding: 20px 10px; }
+    .p-modal-prev { left: 5px; }
+    .p-modal-next { right: 5px; }
 }

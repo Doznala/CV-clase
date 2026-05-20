@@ -83,7 +83,7 @@
             <!-- Facebook --> 
             <li> 
                 <a href="#" aria-label="Visitar nuestro Facebook" class="rrss-link"> 
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="icon-social" width="18" height="18" aria-hidden="true" focusable="false"> 
+                    <svg xmlns="http://w3.org" viewBox="0 0 320 512" class="icon-social" width="18" height="18" aria-hidden="true" focusable="false"> 
                     <path d="M80 299.3V512H196V299.3h86.5l18-97.8H196V166.9c0-51.7 20.3-71.5 72.7-71.5c16.3 0 29.4 .4 37 1.2V7.9C291.4 4 256.4 0 236.2 0C129.3 0 80 50.5 80 159.4v42.1H14v97.8H80z"></path> 
                     </svg> 
                     <span class="sr-only">Facebook</span> 
@@ -92,14 +92,14 @@
             <!-- Twitter --> 
             <li> 
                 <a href="#" aria-label="Visitar nuestro Twitter" class="rrss-link"> 
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="icon-social" width="18" height="18" aria-hidden="true" focusable="false"> <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path> 
+                    <svg xmlns="http://w3.org" viewBox="0 0 512 512" class="icon-social" width="18" height="18" aria-hidden="true" focusable="false"> <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path> 
                     </svg> <span class="sr-only">Twitter</span> 
                 </a> 
             </li> 
             <!-- Behance --> 
             <li> 
                 <a href="#" aria-label="Visitar nuestro Behance" class="rrss-link"> 
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="icon-social" width="18" height="18" aria-hidden="true" focusable="false"> <path d="M232 237.2c31.8-15.2 48.4-38.2 48.4-74 0-70.6-52.6-87.8-113.3-87.8H0v354.4h171.8c64.4 0 124.9-30.9 124.9-102.9 0-44.5-21.1-77.4-64.7-89.7zM77.9 135.9H151c28.1 0 43.4 10.8 43.4 33.6 0 22.2-15.3 35.7-43.4 35.7H77.9v-69.3zm85.1 230.1H77.9V266.2h85.1c32.4 0 49.3 15.3 49.3 39.9 0 25.5-16.9 59.9-49.3 59.9zM576 174.4H334v28.6h242v-28.6zm-101.4 48.7c-63.5 0-112.5 39.7-112.5 111.4 0 71.9 50.1 113 118.8 113 54.4 0 91.1-23.7 108.3-64.7h-62.9c-11.8 16.5-26.6 23.3-45.5 23.3-25.5 0-45.8-14.7-49-41.7h161.2c1.7-13.8 2.2-26.6 2.2-38.3 0-66.9-44.7-103-100.6-103zm-51 86.8c3.4-23.7 20-41.2 46-41.2 24.2 0 40.5 17.5 42.4 41.2h-88.4z"></path> 
+                    <svg xmlns="http://w3.org" viewBox="0 0 576 512" class="icon-social" width="18" height="18" aria-hidden="true" focusable="false"> <path d="M232 237.2c31.8-15.2 48.4-38.2 48.4-74 0-70.6-52.6-87.8-113.3-87.8H0v354.4h171.8c64.4 0 124.9-30.9 124.9-102.9 0-44.5-21.1-77.4-64.7-89.7zM77.9 135.9H151c28.1 0 43.4 10.8 43.4 33.6 0 22.2-15.3 35.7-43.4 35.7H77.9v-69.3zm85.1 230.1H77.9V266.2h85.1c32.4 0 49.3 15.3 49.3 39.9 0 25.5-16.9 59.9-49.3 59.9zM576 174.4H334v28.6h242v-28.6zm-101.4 48.7c-63.5 0-112.5 39.7-112.5 111.4 0 71.9 50.1 113 118.8 113 54.4 0 91.1-23.7 108.3-64.7h-62.9c-11.8 16.5-26.6 23.3-45.5 23.3-25.5 0-45.8-14.7-49-41.7h161.2c1.7-13.8 2.2-26.6 2.2-38.3 0-66.9-44.7-103-100.6-103zm-51 86.8c3.4-23.7 20-41.2 46-41.2 24.2 0 40.5 17.5 42.4 41.2h-88.4z"></path> 
                     </svg> 
                     <span class="sr-only">Behance</span> 
                 </a> 
@@ -110,6 +110,14 @@
     <footer class="pie-web"> 
         <p class="copyright">Copyright &copy; Jame Doe</p>
     </footer>
+
+    <!-- ESTRUCTURA PARA LA AMPLIACIÓN DE IMÁGENES (MODAL CON NAVEGACIÓN) -->
+    <div id="portfolio-modal" class="p-modal" aria-hidden="true">
+        <button class="p-modal-close" id="modal-close" aria-label="Cerrar ampliación">&times;</button>
+        <button class="p-modal-nav p-modal-prev" id="modal-prev" aria-label="Imagen anterior">&#10216;</button>
+        <img class="p-modal-content" id="modal-img" src="" alt="">
+        <button class="p-modal-nav p-modal-next" id="modal-next" aria-label="Imagen siguiente">&#10217;</button>
+    </div>
 
     <script src="script.js"></script>
 </body>

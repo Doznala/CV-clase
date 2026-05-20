@@ -54,3 +54,70 @@ const revealObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('section').forEach(section => {
     revealObserver.observe(section);
 });
+
+// --- 5. LÓGICA DE AMPLIACIÓN DE PORFOLIO (CON NAVEGACIÓN DIRECCIONAL) ---
+const modal = document.getElementById('portfolio-modal');
+const modalImg = document.getElementById('modal-img');
+const modalClose = document.getElementById('modal-close');
+const modalPrev = document.getElementById('modal-prev');
+const modalNext = document.getElementById('modal-next');
+const portfolioImages = document.querySelectorAll('.listado-imagenes img');
+let currentImgIndex = 0;
+
+const updateModalImage = (index) => {
+    if (index >= 0 && index < portfolioImages.length) {
+        currentImgIndex = index;
+        modalImg.src = portfolioImages[currentImgIndex].src;
+        modalImg.alt = portfolioImages[currentImgIndex].alt;
+    }
+};
+
+portfolioImages.forEach((img, index) => {
+    img.addEventListener('click', () => {
+        updateModalImage(index);
+        modal.classList.add('is-active');
+        document.body.style.overflow = 'hidden';
+    });
+});
+
+const closeModal = () => {
+    modal.classList.remove('is-active');
+    document.body.style.overflow = '';
+    setTimeout(() => { modalImg.src = ''; }, 300);
+};
+
+modalClose.addEventListener('click', closeModal);
+modalPrev.addEventListener('click', (e) => {
+    e.stopPropagation();
+    let prevIndex = currentImgIndex - 1;
+    if (prevIndex < 0) prevIndex = portfolioImages.length - 1;
+    updateModalImage(prevIndex);
+});
+
+modalNext.addEventListener('click', (e) => {
+    e.stopPropagation();
+    let nextIndex = currentImgIndex + 1;
+    if (nextIndex >= portfolioImages.length) nextIndex = 0;
+    updateModalImage(nextIndex);
+});
+
+modal.addEventListener('click', (e) => {
+    if (e.target === modal || e.target === modalImg) {
+        closeModal();
+    }
+});
+
+// Vincular los nuevos controles dinámicos al hover del cursor personalizado
+const modalControls = [modalClose, modalPrev, modalNext];
+modalControls.forEach(control => {
+    if (dot && outline) {
+        control.addEventListener('mouseenter', () => { 
+            dot.classList.add('cursor-hover-dot'); 
+            outline.classList.add('cursor-hover-outline'); 
+        });
+        control.addEventListener('mouseleave', () => { 
+            dot.classList.remove('cursor-hover-dot'); 
+            outline.classList.remove('cursor-hover-outline'); 
+        });
+    }
+});
