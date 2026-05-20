@@ -116,5 +116,69 @@ document.addEventListener('DOMContentLoaded', () => {
             particle.remove();
         }, 800);
     }
-});
 
+    // ==========================================================================
+    // INTEGRACIÓN: LÓGICA DE AMPLIACIÓN DE PORFOLIO (TRAÍDA DEL TRABAJO 1)
+    // ==========================================================================
+    const modal = document.getElementById('portfolio-modal');
+    const modalImg = document.getElementById('modal-img');
+    const modalClose = document.getElementById('modal-close');
+    const modalPrev = document.getElementById('modal-prev');
+    const modalNext = document.getElementById('modal-next');
+    const portfolioImages = document.querySelectorAll('.listado-imagenes img');
+    let currentImgIndex = 0;
+
+    const updateModalImage = (index) => {
+        if (index >= 0 && index < portfolioImages.length) {
+            currentImgIndex = index;
+            modalImg.src = portfolioImages[currentImgIndex].src;
+            modalImg.alt = portfolioImages[currentImgIndex].alt;
+        }
+    };
+
+    portfolioImages.forEach((img, index) => {
+        img.addEventListener('click', () => {
+            updateModalImage(index);
+            if (modal) {
+                modal.classList.add('is-active');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+    });
+
+    const closeModal = () => {
+        if (modal) {
+            modal.classList.remove('is-active');
+            document.body.style.overflow = '';
+            setTimeout(() => { if (modalImg) modalImg.src = ''; }, 300);
+        }
+    };
+
+    if (modalClose) modalClose.addEventListener('click', closeModal);
+
+    if (modalPrev) {
+        modalPrev.addEventListener('click', (e) => {
+            e.stopPropagation();
+            let prevIndex = currentImgIndex - 1;
+            if (prevIndex < 0) prevIndex = portfolioImages.length - 1;
+            updateModalImage(prevIndex);
+        });
+    }
+
+    if (modalNext) {
+        modalNext.addEventListener('click', (e) => {
+            e.stopPropagation();
+            let nextIndex = currentImgIndex + 1;
+            if (nextIndex >= portfolioImages.length) nextIndex = 0;
+            updateModalImage(nextIndex);
+        });
+    }
+
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal || e.target === modalImg) {
+                closeModal();
+            }
+        });
+    }
+});

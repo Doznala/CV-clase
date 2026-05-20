@@ -60,7 +60,7 @@ body {
 /* El corazón rotado 135 grados para que el pico inferior sea la punta del puntero */
 .cute-heart-cursor {
     position: fixed;
-    z-index: 10000;
+    z-index: 13000; /* Actualizado para verse sobre la imagen ampliada */
     pointer-events: none;
     user-select: none;
     font-size: 1.6rem;
@@ -74,7 +74,7 @@ body {
 /* Formato de las partículas que se desprenden al caminar */
 .heart-particle {
     position: fixed;
-    z-index: 9999;
+    z-index: 12999; /* Actualizado para verse sobre la imagen ampliada */
     pointer-events: none;
     user-select: none;
     font-size: 0.9rem;
@@ -242,12 +242,11 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    /* Único cambio operativo: alineación centralizada para equilibrar el anclaje del botón Inicio */
     justify-content: center; 
     align-items: center;
     text-align: center;
-    padding-top: 0; /* Eliminado el padding-top que causaba el salto visual */
-    margin-top: -30px; /* Desplazamiento fino hacia arriba idéntico a la distribución previa */
+    padding-top: 0; 
+    margin-top: -30px; 
 }
 
 .character-box {
@@ -528,9 +527,95 @@ input, textarea {
     content: " ✨ ";
 }
 
+/* ==========================================================================
+   10. VISOR DE IMÁGENES AMPLIADO (INTEGRADO Y ADAPTADO AL ESTILO KAWAII)
+   ========================================================================== */
+.p-modal {
+    display: none;
+    position: fixed;
+    z-index: 12000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(26, 15, 26, 0.96); 
+    backdrop-filter: blur(15px);
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.p-modal.is-active {
+    display: flex;
+    opacity: 1;
+}
+
+.p-modal-content {
+    width: 100%;
+    height: 100%;
+    max-width: 100vw;
+    max-height: 100vh;
+    object-fit: contain;
+    padding: 20px;
+    box-sizing: border-box;
+    transform: scale(0.97);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.p-modal.is-active .p-modal-content {
+    transform: scale(1);
+}
+
+.p-modal-close {
+    position: absolute;
+    top: 25px;
+    right: 35px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 50px;
+    font-weight: 100;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s;
+    z-index: 12500;
+    line-height: 1;
+}
+
+.p-modal-close:hover {
+    color: var(--pink-dark); 
+    transform: scale(1.1);
+}
+
+.p-modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 60px;
+    font-weight: 100;
+    padding: 30px 20px;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s, background-color 0.3s;
+    z-index: 12500;
+    user-select: none;
+    line-height: 1;
+}
+
+.p-modal-nav:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.p-modal-prev { left: 10px; border-radius: 0 8px 8px 0; }
+.p-modal-prev:hover { transform: translateY(-50%) translateX(-2px); }
+.p-modal-next { right: 10px; border-radius: 8px 0 0 8px; }
+.p-modal-next:hover { transform: translateY(-50%) translateX(2px); }
+
 /* RESPONSIVE ORIGINAL Y DISEÑO DE MÓVIL */
 @media (max-width: 768px) {
-    /* Devuelve el cursor normal del sistema en pantallas táctiles */
     * { cursor: auto !important; }
     .cute-heart-cursor, .heart-particle { display: none !important; }
 
@@ -591,5 +676,13 @@ input, textarea {
         top: 0;
         transform: rotate(-45deg);
     }
-}
 
+    /* Adaptación responsive del Modal */
+    .p-modal-content {
+        padding: 60px 10px;
+    }
+    .p-modal-close { top: 15px; right: 20px; font-size: 40px; }
+    .p-modal-nav { font-size: 45px; padding: 20px 10px; }
+    .p-modal-prev { left: 5px; }
+    .p-modal-next { right: 5px; }
+}
