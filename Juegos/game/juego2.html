@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Jump - Kawaii Edition</title>
+    <style>
+        @import url('https://googleapis.com');
+
+        :root {
+            --pink-dark: #ff85b9;
+            --pink-light: #ffebf2;
+            --mint: #a8e6cf;
+            --white: #ffffff;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #fff0f5;
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        #game-canvas {
+            background: linear-gradient(180deg, #fff0f5 0%, #ffe4ef 100%);
+            box-shadow: 0 10px 30px rgba(255, 133, 185, 0.2);
+            border-radius: 20px;
+            cursor: crosshair;
+        }
+
+        .ui-layer {
+            position: absolute;
+            pointer-events: none;
+            text-align: center;
+            color: var(--pink-dark);
+        }
+
+        #score-display {
+            top: 20px;
+            font-size: 2rem;
+            text-shadow: 2px 2px white;
+        }
+
+        #menu {
+            pointer-events: all;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        button {
+            background: var(--pink-dark);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover { transform: scale(1.1); }
+    </style>
+</head>
+<body>
+
+    <div id="score-display" class="ui-layer">0m</div>
+
+    <div id="menu" class="ui-layer">
+        <h1 style="margin-top:0">Sweet Jump ✨</h1>
+        <p>Mueve el ratón para saltar <br> en las nubes</p>
+        <button onclick="initGame()">¡A SALTAR!</button>
+    </div>
+
+    <canvas id="game-canvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('game-canvas');
+        const ctx = canvas.getContext('2d');
+        const scoreDisplay = document.getElementById('score-display');
+        const menu = document.getElementById('menu');
+
+        let player, platforms, gravity, jumpStrength, score, gameActive;
+
+        function resize() {
+            canvas.width = Math.min(window.innerWidth, 400);
+            canvas.height = Math.min(window.innerHeight, 600);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        function initGame() {
+            menu.style.display = 'none';
+            score = 0;
+            gravity = 0.4;
+            jumpStrength = -12;
+            gameActive = true;
+
+            player = {
+                x: canvas.width / 2,
+                y: canvas.height - 150,
+                width: 50,
+                height: 40,
+                vy: 0,
+                color: '#ffffff'
+            };
+
+            platforms = [];
+            for(let i = 0; i < 7; i++) {
+                platforms.push({
+                    x: Math.random() * (canvas.width - 70),
+                    y: i * (canvas.height / 7),
+                    width: 80,
+                    height: 15
+                });
+            }
+            update();
+        }
+
+        let mouseX = canvas.width / 2;
+        window.addEventListener('pointermove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = e.clientX - rect.left;
+        });
+
+        function update() {
+            if(!gameActive) return;
+
+            // Movimiento jugador
+            player.vy += gravity;
+            player.y += player.vy;
+            player.x += (mouseX - player.x) * 0.15;
+
+            // Scroll de cámara
+            if (player.y < canvas.height / 2) {
+                let diff = canvas.height / 2 - player.y;
+                player.y = canvas.height / 2;
+                score += Math.floor(diff / 10);
+                scoreDisplay.innerText = score + "m";
+                
+                platforms.forEach(p => {
+                    p.y += diff;
+                    if (p.y > canvas.height) {
+                        p.y = 0;
+                        p.x = Math.random() * (canvas.width - 80);
+                    }
+                });
+            }
+
+            // Colisiones con plataformas
+            if (player.vy > 0) {
+                platforms.forEach(p => {
+                    if (player.x + 25 > p.x && player.x - 25 < p.x + p.width &&
+                        player.y + 20 > p.y && player.y + 20 < p.y + p.height + player.vy) {
+                        player.vy = jumpStrength;
+                    }
+                });
+            }
+
+            // Game Over
+            if (player.y > canvas.height) {
+                gameActive = false;
+                menu.style.display = 'block';
+                menu.querySelector('h1').innerText = "¡Ups! 🎀";
+                menu.querySelector('p').innerText = `Llegaste a los ${score} metros`;
+            }
+
+            draw();
+            requestAnimationFrame(update);
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Dibujar Nubes (Plataformas)
+            platforms.forEach(p => {
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.roundRect(p.x, p.y, p.width, p.height, 10);
+                ctx.fill();
+                // Sombra de la nube
+                ctx.fillStyle = 'rgba(168, 230, 207, 0.5)';
+                ctx.fillRect(p.x + 5, p.y + p.height, p.width - 10, 3);
+            });
+
+            // Dibujar Personaje (Conejito bola)
+            ctx.save();
+            ctx.translate(player.x, player.y);
+            
+            // Orejas
+            ctx.fillStyle = '#ffffff';
+            ctx.rotate(-0.2); ctx.fillRect(-15, -25, 12, 20);
+            ctx.rotate(0.4); ctx.fillRect(5, -25, 12, 20);
+            ctx.setTransform(1, 0, 0, 1, 0, 0); // reset
+            ctx.translate(player.x, player.y);
+
+            // Cuerpo
+            ctx.beginPath();
+            ctx.arc(0, 0, 25, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            
+            // Cara
+            ctx.fillStyle = '#ff85b9';
+            ctx.beginPath(); // Ojo izq
+            ctx.arc(-8, -2, 2, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); // Ojo der
+            ctx.arc(8, -2, 2, 0, Math.PI * 2); ctx.fill();
+            // Mejillas
+            ctx.fillStyle = 'rgba(255, 194, 212, 0.6)';
+            ctx.beginPath(); ctx.arc(-15, 5, 5, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(15, 5, 5, 0, Math.PI * 2); ctx.fill();
+            
+            ctx.restore();
+        }
+    </script>
+</body>
+</html>

@@ -71,8 +71,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let lastX = 0;
     let lastY = 0;
     const distanceThreshold = 8; // Distancia en píxeles para generar la siguiente partícula
+    let mouseTimeout; // Temporizador para controlar la inactividad del cursor
+
+    // Detectar cuándo el cursor sale completamente fuera de la ventana del navegador
+    document.addEventListener('mouseleave', () => {
+        heartCursor.style.display = 'none';
+    });
 
     window.addEventListener('mousemove', (e) => {
+        // Al mover el ratón, nos aseguramos de que el puntero vuelva a ser visible
+        heartCursor.style.display = 'block';
+
+        // Limpiamos el temporizador previo cada vez que el ratón se mueve para que siga visible
+        clearTimeout(mouseTimeout);
+
         // Posicionamos el corazón usando las coordenadas del ratón
         heartCursor.style.left = `${e.clientX}px`;
         heartCursor.style.top = `${e.clientY}px`;
@@ -85,6 +97,11 @@ document.addEventListener('DOMContentLoaded', () => {
             lastX = e.clientX;
             lastY = e.clientY;
         }
+
+        // NUEVO TEMPORIZADOR: Si el ratón deja de moverse durante 1.5 segundos, se oculta
+        mouseTimeout = setTimeout(() => {
+            heartCursor.style.display = 'none';
+        }, 1500);
     });
 
     // Función interna para generar cada partícula de la estela

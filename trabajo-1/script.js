@@ -1,11 +1,48 @@
 // --- 1. LÓGICA DEL CURSOR ---
 const dot = document.querySelector('.cursor-dot');
 const outline = document.querySelector('.cursor-outline');
+let mouseTimeout;
+
+// Asegurar transiciones suaves de opacidad desde JS para no tocar el CSS
+if (dot && outline) {
+    dot.style.transition = 'opacity 0.3s ease, transform 0.2s ease, width 0.2s ease, height 0.2s ease';
+    outline.style.transition = 'opacity 0.3s ease, transform 0.2s ease, width 0.2s ease, height 0.2s ease';
+}
+
+const ocultarCursorPersonalizado = () => {
+    if (dot && outline) {
+        dot.style.opacity = '0';
+        outline.style.opacity = '0';
+    }
+};
+
+const mostrarCursorPersonalizado = () => {
+    if (dot && outline) {
+        dot.style.opacity = '1';
+        outline.style.opacity = '1';
+    }
+};
+
+// Detectar cuándo el cursor sale completamente fuera de la ventana del navegador
+document.addEventListener('mouseleave', () => {
+    ocultarCursorPersonalizado();
+});
 
 window.addEventListener('mousemove', (e) => {
+    // Volver a mostrar el cursor cuando se mueve dentro de la página
+    mostrarCursorPersonalizado();
+
+    // Limpiamos el temporizador previo cada vez que el ratón se mueve para que siga visible
+    clearTimeout(mouseTimeout);
+
     dot.style.left = `${e.clientX}px`;
     dot.style.top = `${e.clientY}px`;
     outline.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 500, fill: "forwards" });
+
+    // NUEVO TEMPORIZADOR: Si el ratón deja de moverse durante 1.5 segundos, se ocultan
+    mouseTimeout = setTimeout(() => {
+        ocultarCursorPersonalizado();
+    }, 1500);
 });
 
 const clickables = document.querySelectorAll('a, button, input, textarea, .listado-imagenes img, .profile-img, .rrss-link');

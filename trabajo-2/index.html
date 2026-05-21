@@ -27,7 +27,10 @@
     <!-- Panel de Configuración -->
     <button id="toggle-btn">⚙️</button>
     <div id="control-panel">
+        <label for="t-input">Modifica el Nombre:</label>
         <input type="text" id="t-input" placeholder="Nombre...">
+        
+        <label for="s-input">Modifica el Eslogan:</label>
         <input type="text" id="s-input" placeholder="Eslogan...">
     </div>
 
@@ -143,20 +146,18 @@
         </div>
     </main>
 
-	<footer class="pie-web">
-		<p class="copyright">Copyright &copy; Jane Doe</p>
-	</footer>
+    <footer class="pie-web">
+        <p class="copyright">Copyright &copy; Jane Doe</p>
+    </footer>
 
     <!-- ESTRUCTURA PARA LA AMPLIACIÓN DE IMÁGENES INTEGRADA DEL TRABAJO 1 -->
-    <div id="portfolio-modal" class="p-modal" aria-hidden="true">
-        <button class="p-modal-close" id="modal-close" aria-label="Cerrar ampliación">&times;</button>
-        <button class="p-modal-nav p-modal-prev" id="modal-prev" aria-label="Imagen anterior">⟨</button>
-        <img class="p-modal-content" id="modal-img" src="" alt="">
-        <button class="p-modal-nav p-modal-next" id="modal-next" aria-label="Imagen siguiente">⟩</button>
+    <div id="portfolio-modal" class="p-modal">
+        <button id="modal-close" class="p-modal-close">&times;</button>
+        <button id="modal-prev" class="p-modal-nav p-modal-prev">❮</button>
+        <button id="modal-next" class="p-modal-nav p-modal-next">❯</button>
+        <img id="modal-img" class="p-modal-content" src="" alt="">
     </div>
 
     <script src="script.js"></script>
 </body>
 </html>
-
-

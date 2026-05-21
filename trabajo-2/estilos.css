@@ -686,3 +686,17 @@ input, textarea {
     .p-modal-prev { left: 5px; }
     .p-modal-next { right: 5px; }
 }
+/* ==========================================================================
+   MODIFICACIÓN AUTORIZADA: ETIQUETAS EXPLICATIVAS DEL PANEL DE CONTROL
+   ========================================================================== */
+#control-panel label {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--pink-dark);
+    margin-bottom: 2px;
+    text-align: left;
+    display: block;
+    font-family: 'Quicksand', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}

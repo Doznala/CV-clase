@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Arcade de Juegos</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://googleapis.com" rel="stylesheet">
+</head>
+<body>
+
+    <div class="menu-container">
+        <header class="menu-header">
+            <h1>✨ Mi Arcade Personal ✨</h1>
+            <p>Selecciona un juego para empezar a divertirte o deja que el azar elija por ti.</p>
+        </header>
+
+        <!-- Sección del Botón de Juego Aleatorio -->
+        <div class="random-section">
+            <button id="btn-random" class="btn-random">🎲 ¡Juego Aleatorio!</button>
+        </div>
+
+        <!-- Rejilla de Tarjetas de Juegos -->
+        <main class="games-grid">
+            
+            <!-- Juego 1 -->
+            <div class="game-card">
+                <div class="card-icon">⭐</div>
+                <h2>Kawaii Cloud Catcher</h2>
+                <p>Un tierno juego arcade. Atrapa tantas estrellas doradas como puedas y esquiva las nubes grises.</p>
+                <!-- Ruta corregida apuntando a la carpeta game -->
+                <a href="game/juego.html" class="btn-play">Jugar Ahora</a>
+            </div>
+
+            <!-- Juego 2 -->
+            <div class="game-card">
+                <div class="card-icon">☁️</div>
+                <h2>Sweet Jump</h2>
+                <p>Salta de nube en nube controlando a un adorable conejito bola. ¡Llega lo más alto posible!</p>
+                <!-- Ruta corregida apuntando a la carpeta game -->
+                <a href="game/juego2.html" class="btn-play">Jugar Ahora</a>
+            </div>
+
+            <!-- Juego 3 -->
+            <div class="game-card">
+                <div class="card-icon">🏓</div>
+                <h2>PONG JS</h2>
+                <p>El clásico juego de ping-pong arcade. Enfréntate a la inteligencia artificial en intensos partidos a 10 puntos.</p>
+                <!-- Ruta corregida apuntando a la carpeta game -->
+                <a href="game/juego3.html" class="btn-play">Jugar Ahora</a>
+            </div>
+
+            <!-- Juego 4 -->
+            <div class="game-card">
+                <div class="card-icon">🐍</div>
+                <h2>SNAKE JS</h2>
+                <p>El juego retro de la serpiente. Come manzanas rojas para crecer sin chocar contra los bordes o contigo mismo.</p>
+                <!-- Ruta corregida apuntando a la carpeta game -->
+                <a href="game/juego4.html" class="btn-play">Jugar Ahora</a>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -422,10 +422,70 @@ body.ver-puntero-t2.quitar-cursor-sistema .cute-heart-cursor { display: block; }
     50% { opacity: 1; transform: scale(1.2); }
 }
 
-/* RESPONSIVE ORIGINAL MÓVIL */
+/* ==========================================================================
+   PESTAÑA INFERIOR INTERACTIVA: GOTEO A LÍNEA RECTA (TRANSICIÓN DEFORMABLE)
+   ========================================================================== */
+.contenedor-pestaña-mando {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 100px;
+    z-index: 10000;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.fondo-goteo-animado {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0px -3px 6px rgba(0, 0, 0, 0.05));
+    transform-origin: bottom center;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-mando {
+    position: relative;
+    bottom: 15px;
+    width: 52px;
+    height: 52px;
+    background-color: var(--t2-purple);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(179, 157, 219, 0.4);
+    pointer-events: auto;
+    z-index: 10;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1.1), background-color 0.4s ease;
+}
+
+.icono-mando {
+    width: 26px;
+    height: 26px;
+}
+
+.contenedor-pestaña-mando:has(.btn-mando:hover) .fondo-goteo-animado {
+    transform: scaleY(0.25);
+}
+
+.btn-mando:hover {
+    transform: scale(1.05) translateY(-22px);
+    background-color: var(--t2-pink-dark);
+}
+
+/* ==========================================================================
+   RESPONSIVE ORIGINAL MÓVIL (CORREGIDO PARA MANTENER LOS PUNTEROS EN PC)
+   ========================================================================== */
 @media (max-width: 768px) {
-    * { cursor: auto !important; }
-    .cursor-dot-t1, .cursor-outline-t1, .cute-heart-cursor, .heart-particle { display: none !important; }
+    /* CORRECCIÓN: Se eliminó el "display: none" para que los punteros sigan viéndose al estrechar la ventana en PC */
 
     .pantalla-dividida {
         flex-direction: column;
@@ -462,6 +522,18 @@ body.ver-puntero-t2.quitar-cursor-sistema .cute-heart-cursor { display: block; }
     .titulo-t1, .titulo-t2 {
         margin-bottom: 20px;
     }
+
+    /* Adaptación de la pestaña en móviles */
+    .contenedor-pestaña-mando {
+        height: 80px;
+    }
+    .btn-mando {
+        width: 46px;
+        height: 46px;
+        bottom: 8px;
+    }
+    .icono-mando {
+        width: 22px;
+        height: 22px;
+    }
 }
-
-

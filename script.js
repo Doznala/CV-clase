@@ -19,10 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const avisoModal = document.getElementById('aviso-modal');
     const cerrarAvisoBtn = document.getElementById('cerrar-aviso');
 
+    // Referencia del botón del mando añadido
+    const btnMando = document.querySelector('.btn-mando');
+
     // Variables de control estela Partículas (Puntero 2)
     let lastX = 0;
     let lastY = 0;
     const distanceThreshold = 8;
+    
+    // Temporizador para ocultar los punteros cuando el ratón se queda quieto o se va
+    let mouseTimeout;
 
     // Al arrancar, NO añadimos la clase para mantener el cursor nativo del PC sobre el aviso
     if (cerrarAvisoBtn && avisoModal) {
@@ -41,17 +47,34 @@ document.addEventListener('DOMContentLoaded', () => {
         ladoDerecho.addEventListener('mouseleave', () => { ladoIzquierdo.style.opacity = '1'; });
     }
 
+    // Ocultar punteros de forma limpia cuando el cursor sale completamente de la página web
+    document.addEventListener('mouseleave', () => {
+        document.body.classList.remove('ver-puntero-t1', 'ver-puntero-t2');
+    });
+
     // 2. Escucha e interacción global del ratón para cambio dinámico de punteros
     window.addEventListener('mousemove', (e) => {
-        if (window.innerWidth <= 768) return; // Salir en móviles
-        
         // Condición estricta: si el aviso sigue abierto, no mover ni pintar cursores de diseño
         if (!document.body.classList.contains('quitar-cursor-sistema')) return;
 
-        const mitadPantalla = window.innerWidth / 2;
+        // Limpiar el temporizador previo cada vez que el ratón se mueva para que sigan visibles
+        clearTimeout(mouseTimeout);
 
-        // --- ZONA IZQUIERDA (TRABAJO 1) ---
-        if (e.clientX < mitadPantalla) {
+        // Detectar si las mitades están en horizontal o una encima de la otra en vertical
+        let esZonaTrabajo1 = false;
+        
+        if (window.innerWidth > window.innerHeight) {
+            // Diseño normal lado a lado: división por anchura
+            const mitadPantallaAncho = window.innerWidth / 2;
+            esZonaTrabajo1 = e.clientX < mitadPantallaAncho;
+        } else {
+            // Diseño estrecho uno arriba y otro abajo: división por altura
+            const mitadPantallaAlto = window.innerHeight / 2;
+            esZonaTrabajo1 = e.clientY < mitadPantallaAlto;
+        }
+
+        // --- ZONA TRABAJO 1 (Futurista) ---
+        if (esZonaTrabajo1) {
             document.body.classList.add('ver-puntero-t1');
             document.body.classList.remove('ver-puntero-t2');
 
@@ -65,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 );
             }
         } 
-        // --- ZONA DERECHA (TRABAJO 2) ---
+        // --- ZONA TRABAJO 2 (Kawaii) ---
         else {
             document.body.classList.add('ver-puntero-t2');
             document.body.classList.remove('ver-puntero-t1');
@@ -84,6 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 lastY = e.clientY;
             }
         }
+
+        // NUEVO: Si el ratón deja de moverse por 1.5 segundos, quitamos las clases para ocultar los punteros
+        mouseTimeout = setTimeout(() => {
+            document.body.classList.remove('ver-puntero-t1', 'ver-puntero-t2');
+        }, 1500);
     });
 
     // 3. Hover interactivo exclusivo para el botón del Trabajo 1 (solo si no hay aviso)
@@ -146,6 +174,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 dot1.classList.remove('cursor-hover-dot-t1');
                 outline1.classList.remove('cursor-hover-outline-t1');
             }
+        });
+    }
+
+    // 6. Integración del efecto Hover en el nuevo botón del mando (Pestaña inferior)
+    if (btnMando && dot1 && outline1) {
+        btnMando.addEventListener('mouseenter', () => {
+            if (!document.body.classList.contains('quitar-cursor-sistema')) return;
+            if (document.body.classList.contains('ver-puntero-t1')) {
+                dot1.classList.add('cursor-hover-dot-t1');
+                outline1.classList.add('cursor-hover-outline-t1');
+            }
+        });
+        btnMando.addEventListener('mouseleave', () => {
+            if (!document.body.classList.contains('quitar-cursor-sistema')) return;
+            dot1.classList.remove('cursor-hover-dot-t1');
+            outline1.classList.remove('cursor-hover-outline-t1');
         });
     }
 });

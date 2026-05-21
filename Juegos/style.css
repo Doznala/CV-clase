@@ -1,0 +1,154 @@
+/* Variables de color basadas en el tono morado #b39ddb */
+:root {
+    --color-principal: #b39ddb;
+    --color-claro: #e6ceff;
+    --color-oscuro: #826eb3;
+    --degradado-fondo: linear-gradient(135deg, #f4e8ff 0%, #e8dbfc 100%);
+    --fondo-tarjeta: #ffffff;
+    --color-texto: #4a3b68;
+    --texto-suave: #7c6d9b;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    background: var(--degradado-fondo);
+    color: var(--color-texto);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.menu-container {
+    width: 100%;
+    max-width: 1000px;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    padding: 40px 20px;
+    box-shadow: 0 20px 40px rgba(130, 110, 179, 0.15);
+}
+
+.menu-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.menu-header h1 {
+    font-size: 2.8rem;
+    color: var(--color-oscuro);
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 0px white;
+}
+
+.menu-header p {
+    font-size: 1.1rem;
+    color: var(--texto-suave);
+}
+
+/* Estilos del botón aleatorio */
+.random-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.btn-random {
+    background: var(--color-principal);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.3rem;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(179, 157, 219, 0.5);
+    transition: all 0.3s ease;
+}
+
+.btn-random:hover {
+    background: var(--color-oscuro);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 25px rgba(130, 110, 179, 0.6);
+}
+
+.btn-random:active {
+    transform: translateY(0) scale(1);
+}
+
+/* Rejilla de tarjetas */
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.game-card {
+    background: var(--fondo-tarjeta);
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.game-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(130, 110, 179, 0.2);
+    border-color: var(--color-claro);
+}
+
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.game-card h2 {
+    font-size: 1.4rem;
+    color: var(--color-oscuro);
+    margin-bottom: 12px;
+}
+
+.game-card p {
+    font-size: 0.95rem;
+    color: var(--texto-suave);
+    line-height: 1.4;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.btn-play {
+    display: inline-block;
+    background: #ffffff;
+    color: var(--color-oscuro);
+    border: 2px solid var(--color-principal);
+    padding: 10px 25px;
+    font-size: 1rem;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 50px;
+    transition: all 0.2s ease;
+}
+
+.game-card:hover .btn-play {
+    background: var(--color-principal);
+    color: white;
+    box-shadow: 0 5px 15px rgba(179, 157, 219, 0.4);
+}
+
+.btn-play:hover {
+    transform: scale(1.05);
+}
